@@ -1,4 +1,4 @@
-package elisa.devtest.endtoend;
+package elisa.devtest.endtoend.resources;
 
 import elisa.devtest.endtoend.dao.OrderDao;
 import elisa.devtest.endtoend.model.Order;
