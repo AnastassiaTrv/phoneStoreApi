@@ -9,6 +9,8 @@ public class Order {
     private Customer customer;
     private List<OrderLine> orderLines = new ArrayList<>();
 
+    public Order() {}
+
     public Order(long orderId, Customer customer, List<OrderLine> orderLines) {
         this.orderId = orderId;
         this.customer = customer;

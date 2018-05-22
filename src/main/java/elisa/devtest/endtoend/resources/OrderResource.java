@@ -3,9 +3,7 @@ package elisa.devtest.endtoend.resources;
 import elisa.devtest.endtoend.dao.OrderDao;
 import elisa.devtest.endtoend.model.Order;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Collection;
 
@@ -15,5 +13,12 @@ public class OrderResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<Order> getOrders() {
         return new OrderDao().findOrders();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Order submitOrder(Order order) {
+        return new OrderDao().submitOrder(order);
     }
 }
