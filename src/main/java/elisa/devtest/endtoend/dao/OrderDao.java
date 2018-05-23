@@ -1,10 +1,18 @@
 package elisa.devtest.endtoend.dao;
 
+import java.sql.Connection;
+
+import elisa.devtest.endtoend.QueryUtils;
 import elisa.devtest.endtoend.model.Customer;
 import elisa.devtest.endtoend.model.Order;
 import elisa.devtest.endtoend.model.OrderLine;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
@@ -38,13 +46,33 @@ public class OrderDao {
     }
 
 
-    public Order submitOrder(Order orderInfo) {
-        try {
+    public Order submitOrder(Order order) {
+        int customerId = addCustomerFromOrder(order.getCustomer());
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return orderInfo;
+        // toDo insert order and order lines
+
+        return order;
+    }
+
+
+    /**
+     * Insert new customer from order into DB
+     * @param customer - customer object with information
+     * @return id of added customer
+     */
+    private int addCustomerFromOrder(Customer customer) {
+        JdbcTemplate template = new JdbcTemplate(DBConnection.getDataSource());
+        String query = QueryUtils.getInsertQustomerQuery(customer);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        template.update(new PreparedStatementCreator() {
+                    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                        return connection.prepareStatement(query, new String[] {"customer_id"});
+                    }
+                }, keyHolder);
+
+        return keyHolder.getKey().intValue();
+
     }
 
     private JdbcTemplate createJdbcTemplate() {
