@@ -14,17 +14,23 @@ import java.util.List;
 
 public class ProductService {
     private final ProductDao productDao = new ProductDao();
-    final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
+    /**
+     * Get all phone group products from DB
+     * @return list of phones
+     */
     public List<Product> findProducts() {
         List<Product> products = new ArrayList<>();
-        List<ProductDto> productDtos = productDao.findProducts();
-        productDtos.stream().forEach(productDto ->
-                mapAsProducts(productDto).stream()
-                        .forEach(product -> products.add(product)));
+        productDao.findProducts().forEach(productDto -> products.addAll(mapAsProducts(productDto)));
         return products;
     }
 
+    /**
+     * Parse products JSON into list of products
+     * @param productDto - dto with JSON to parse
+     * @return list of Product objects
+     */
     private List<Product> mapAsProducts(ProductDto productDto)  {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         try {

@@ -17,15 +17,22 @@ public class PricingService {
     private final PricingDao pricingDao = new PricingDao();
 
 
+    /**
+     * Get all phone group products prices from DB
+     * @return list of prices
+     */
     public List<Price> findPrices() {
         List<Price> prices = new ArrayList<>();
-        List<PriceDto> priceDtos = pricingDao.findPrices();
-        priceDtos.stream().forEach(priceDto ->
-                mapAsPrices(priceDto).stream()
-                        .forEach(price -> prices.add(price)));
+        pricingDao.findPrices().forEach(priceDto -> prices.addAll(mapAsPrices(priceDto)));
         return prices;
     }
 
+
+    /**
+     * Parse prices JSON into list of products
+     * @param priceDto - dto with JSON to parse
+     * @return list of Price objects
+     */
     private List<Price> mapAsPrices(PriceDto priceDto)  {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         try {
