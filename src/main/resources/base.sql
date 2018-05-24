@@ -19,7 +19,7 @@ CREATE TABLE orders (
 CREATE TABLE order_line (
   order_line_id number(10) not null identity,
   order_id number(10) not null,
-  product_id number(10) not null,
+  product_id varchar2(50) not null,
   product_name varchar2 (50) not null,
   quantity number(10) not null,
   CONSTRAINT fk_order

@@ -1,18 +1,13 @@
 package elisa.devtest.endtoend.dao;
 
-import java.sql.Connection;
-
 import elisa.devtest.endtoend.QueryUtils;
 import elisa.devtest.endtoend.model.Customer;
 import elisa.devtest.endtoend.model.Order;
 import elisa.devtest.endtoend.model.OrderLine;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
@@ -46,34 +41,37 @@ public class OrderDao {
     }
 
 
-    public Order submitOrder(Order order) {
-        int customerId = addCustomerFromOrder(order.getCustomer());
+    /**
+     * Insert new order into DB
+     * @param customerId - id of customer to link with
+     * @return id of added order
+     */
+    public int addOrder(int customerId) {
+        JdbcTemplate template = createJdbcTemplate();
+        String query = QueryUtils.getInsertOrderQuery(customerId);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        // toDo insert order and order lines
+        template.update(connection -> connection.prepareStatement(query, new String[] {"order_id"}), keyHolder);
 
-        return order;
+        return keyHolder.getKey().intValue();
     }
 
 
     /**
-     * Insert new customer from order into DB
-     * @param customer - customer object with information
-     * @return id of added customer
+     * Insert order lines into DB
+     * @param orderLines - list of order lines to insert
+     * @param orderId - id of order to link with
+     * @return number of records inserted
      */
-    private int addCustomerFromOrder(Customer customer) {
-        JdbcTemplate template = new JdbcTemplate(DBConnection.getDataSource());
-        String query = QueryUtils.getInsertQustomerQuery(customer);
-        KeyHolder keyHolder = new GeneratedKeyHolder();
+    public int addOrderLines(List<OrderLine> orderLines, int orderId) {
 
-        template.update(new PreparedStatementCreator() {
-                    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-                        return connection.prepareStatement(query, new String[] {"customer_id"});
-                    }
-                }, keyHolder);
+        JdbcTemplate template = createJdbcTemplate();
+        String query = QueryUtils.getInsertOrderLinesQuery(orderLines, orderId);
 
-        return keyHolder.getKey().intValue();
-
+        return template.update(query);
     }
+
+
 
     private JdbcTemplate createJdbcTemplate() {
         return new JdbcTemplate(DBConnection.getDataSource());
