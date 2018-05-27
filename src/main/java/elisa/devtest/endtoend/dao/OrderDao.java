@@ -1,6 +1,6 @@
 package elisa.devtest.endtoend.dao;
 
-import elisa.devtest.endtoend.QueryUtils;
+import elisa.devtest.endtoend.utils.QueryUtils;
 import elisa.devtest.endtoend.model.Customer;
 import elisa.devtest.endtoend.model.Order;
 import elisa.devtest.endtoend.model.OrderLine;
@@ -22,7 +22,7 @@ public class OrderDao {
         return Collections.EMPTY_LIST;
     }
 
-    private List<OrderLine> findOrderLines(long orderId) {
+    List<OrderLine> findOrderLines(long orderId) {
         try {
             return createJdbcTemplate().query("select * from order_line where order_id = ?", new Object[]{orderId}, (resultSet, rowNumber) -> new OrderLine(resultSet.getLong("order_line_id"), resultSet.getString("product_id"), resultSet.getString("product_name"), resultSet.getInt("quantity")));
         } catch (Exception e) {
@@ -46,7 +46,7 @@ public class OrderDao {
      * @param customerId - id of customer to link with
      * @return id of added order
      */
-    public int addOrder(int customerId) {
+    public long addOrder(long customerId) {
         JdbcTemplate template = createJdbcTemplate();
         String query = QueryUtils.getInsertOrderQuery(customerId);
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -63,7 +63,7 @@ public class OrderDao {
      * @param orderId - id of order to link with
      * @return number of records inserted
      */
-    public int addOrderLines(List<OrderLine> orderLines, int orderId) {
+    public int addOrderLines(List<OrderLine> orderLines, long orderId) {
 
         JdbcTemplate template = createJdbcTemplate();
         String query = QueryUtils.getInsertOrderLinesQuery(orderLines, orderId);

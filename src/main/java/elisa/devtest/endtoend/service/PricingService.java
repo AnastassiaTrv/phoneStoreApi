@@ -14,7 +14,7 @@ import java.util.List;
 
 public class PricingService {
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final PricingDao pricingDao = new PricingDao();
+    private PricingDao pricingDao = new PricingDao();
 
 
     /**
@@ -40,5 +40,9 @@ public class PricingService {
         } catch (IOException e) {
             throw new JsonParseException(e);
         }
+    }
+
+    public void setPricingDao(PricingDao pricingDao) {
+        this.pricingDao = pricingDao;
     }
 }

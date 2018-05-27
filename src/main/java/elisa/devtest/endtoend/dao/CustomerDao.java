@@ -1,6 +1,6 @@
 package elisa.devtest.endtoend.dao;
 
-import elisa.devtest.endtoend.QueryUtils;
+import elisa.devtest.endtoend.utils.QueryUtils;
 import elisa.devtest.endtoend.model.Customer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -13,7 +13,7 @@ public class CustomerDao {
      * @param customer - customer object with information
      * @return id of added customer
      */
-    public int addCustomer(Customer customer) {
+    public long addCustomer(Customer customer) {
         JdbcTemplate template = new JdbcTemplate(DBConnection.getDataSource());
         String query = QueryUtils.getInsertQustomerQuery(customer);
         KeyHolder keyHolder = new GeneratedKeyHolder();

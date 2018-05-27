@@ -1,4 +1,4 @@
-package elisa.devtest.endtoend;
+package elisa.devtest.endtoend.utils;
 
 import elisa.devtest.endtoend.model.Customer;
 import elisa.devtest.endtoend.model.OrderLine;
@@ -33,7 +33,7 @@ public class QueryUtils {
      * @param customerId - id of customer to link with order
      * @return executable sql string
      */
-    public static String getInsertOrderQuery(int customerId) {
+    public static String getInsertOrderQuery(long customerId) {
         return "INSERT INTO orders (customer_id) VALUES (" + customerId + ");";
     }
 
@@ -44,7 +44,7 @@ public class QueryUtils {
      * @param orderId - id of order to link with
      * @return executable sql string
      */
-    public static String getInsertOrderLinesQuery(List<OrderLine> lines, int orderId) {
+    public static String getInsertOrderLinesQuery(List<OrderLine> lines, long orderId) {
         StringBuilder queryBuilder = new StringBuilder();
         queryBuilder.append("INSERT INTO order_line (order_id, product_id, product_name, quantity) VALUES");
 
@@ -56,5 +56,14 @@ public class QueryUtils {
         String withoutComma = queryBuilder.substring(0, queryBuilder.toString().length() - 1);
 
         return withoutComma + ";";
+    }
+
+
+    /**
+     * Get sql query for dropping tables in db
+     * @return executable sql string
+     */
+    public static String getDropTablesQuery() {
+        return "DROP TABLE IF EXISTS pricing_dump, product_dump, order_line, orders, customer;";
     }
 }

@@ -2,6 +2,7 @@ package elisa.devtest.endtoend;
 
 
 import elisa.devtest.endtoend.dao.DBConnection;
+import elisa.devtest.endtoend.utils.QueryUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -38,5 +39,12 @@ public class DbBootstrap {
         String statement = "INSERT INTO " + table + " VALUES (?, ?);";
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnection.getDataSource());
         jdbcTemplate.execute(statement, new PreparedJsonStatement(groupIdentifier, json));
+    }
+
+
+    public void cleanUpTestDb() {
+        String statement = QueryUtils.getDropTablesQuery();
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(DBConnection.getDataSource());
+        jdbcTemplate.execute(statement);
     }
 }

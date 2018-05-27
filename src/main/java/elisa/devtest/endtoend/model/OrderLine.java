@@ -31,4 +31,20 @@ public class OrderLine {
     public int getQuantity() {
         return quantity;
     }
+
+    public void setOrderLineId(long orderLineId) {
+        this.orderLineId = orderLineId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 }

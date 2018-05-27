@@ -28,4 +28,16 @@ public class Order {
     public List<OrderLine> getOrderLines() {
         return orderLines;
     }
+
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public void setOrderLines(List<OrderLine> orderLines) {
+        this.orderLines = orderLines;
+    }
 }

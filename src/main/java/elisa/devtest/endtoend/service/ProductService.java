@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductService {
-    private final ProductDao productDao = new ProductDao();
+    private ProductDao productDao = new ProductDao();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
@@ -38,5 +38,9 @@ public class ProductService {
         } catch (IOException e) {
             throw new JsonParseException(e);
         }
+    }
+
+    public void setProductDao(ProductDao productDao) {
+        this.productDao = productDao;
     }
 }

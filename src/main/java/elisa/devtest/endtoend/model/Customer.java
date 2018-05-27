@@ -43,4 +43,29 @@ public class Customer {
     public String getCountry() {
         return country;
     }
+
+
+    public void setCustomerId(long customerId) {
+        this.customerId = customerId;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 }
